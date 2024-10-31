@@ -1,0 +1,12 @@
+Imagine que o código de backend de um sistema de login utilize a seguinte consulta SQL:
+```sql
+SELECT * FROM users WHERE username = 'input_user' AND password = 'input_pass';
+```
+Aqui, os valores de `input_user` e `input_pass` são recebidos diretamente do formulário de login
+e concatenados na consulta SQL. O problema é que, se os dados fornecidos pelo usuário forem
+maliciosos, como `' OR 1=1;--`, o código SQL resultante se tornaria:
+```sql
+SELECT * FROM users WHERE username = '' OR 1=1;--' AND password = '';
+```
+O operador `OR 1=1` é sempre verdadeiro, o que ignora a verificação de senha e permite acesso
+não autorizado, pois a condição da consulta SQL sempre retornará verdade.
